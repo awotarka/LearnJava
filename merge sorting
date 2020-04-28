@@ -1,0 +1,78 @@
+public class Main {
+    private static void printData(String[] names, double[] data) {
+        System.out.print("{");
+        for (int i = 0; i < data.length; i++) {
+            System.out.print(names[i] + ": " + data[i] + ", ");
+        }
+        System.out.println("\b\b}");
+    }
+
+    static void mergeSort(String[] str, double[] array) {
+//делим на более мелкие массивы
+        double[] leftArray = new double[array.length / 2];
+        double[] rightArray = new double[array.length - leftArray.length];
+        String[] leftStr = new String[str.length / 2];
+        String[] rightStr = new String[str.length - leftStr.length];
+
+//цикл по элементам присваивая элементы к правой и левой части массива
+        for (int i = 0; i < array.length; i++) {
+//если номер элемента меньше длины левой части массива присваиваем к текущему индексу значение элемента
+            if (i < leftArray.length) {
+                leftArray[i] = array[i];
+                leftStr[i] = str[i];
+            } else
+//иначе присваеваем по правой части массива
+            {
+                rightArray[i - leftArray.length] = array[i];
+                rightStr[i - leftStr.length] = str[i];
+            }
+        }
+// делаем условие если длина правой части больше 1 запускаем рекурсию
+        if (rightArray.length > 1) {
+            mergeSort(leftStr, leftArray);
+            mergeSort(rightStr, rightArray);
+        }
+//создаем два счетчика
+        int leftId = 0;
+        int rightId = 0;
+//запускаем цикл по длине массива
+        for (int i = 0; i < array.length; i++) {
+//если левый индекс равен длине левого массива и правый индекс меньше длины правого, присваиваем к текущему элементу значение правого элемента
+            if ((leftId == leftArray.length) && (rightId < rightArray.length)) {
+                array[i] = rightArray[rightId];
+                str[i] = rightStr[rightId++];}
+//если правый индекс равен длине правого массива и левый индекс меньше длины левого, присваиваем к текущему элементу значение левого элемента
+            else if ((rightId == rightArray.length) && (leftId < leftArray.length)) {
+                array[i] = leftArray[leftId];
+                str[i] = leftStr[leftId++];
+            } else
+//иначе если элемент левого массива больше элемента правого мы присваиваем к текущему элементу значение элемента левого массива(если нет то приравниваем к значению правого)
+            {
+                array[i] = Math.min(leftArray[leftId], rightArray[rightId]);
+                str[i] = (leftArray[leftId] < rightArray[rightId]) ? leftStr[leftId++] : rightStr[rightId++];
+            }
+        }printData(str, array);
+    }
+
+    public static void sortStoresSales(String[] str, double[] array) {
+// условие по длинам массивов
+        if (str.length != array.length)
+            System.out.println("Corrupted Data");
+// условие что они заполнены
+        else if (str.length == 0)
+            System.out.println("Empty Data");
+// Создали цикл для перебора элементов массива
+        else {
+            mergeSort(str, array);
+            printData(str, array);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        double[] d = {4.24, 124.24, 2.3, 112.0, 32.43, -12.2};
+        String[] s = {"Москва", "Лондон", "Париж", "Сидней", "Уфа", "Брюссель"};
+        sortStoresSales(s, d);
+
+    }
+}

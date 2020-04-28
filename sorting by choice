@@ -1,0 +1,53 @@
+public class Main {
+    private static void printData(String[] names, double[] data) {
+        System.out.print("{");
+        for (int i = 0; i < data.length; i++) {
+            System.out.print(names[i] + ": " + data[i] + ", ");
+        }
+        System.out.println("\b\b}");
+    }
+
+    public static void sortSales(String[] str, double[] array) {
+//проверки длин массивов
+        if (str.length != array.length)
+            System.out.println("Corrupted Data");
+        else if (str.length == 0)
+            System.out.println("Empty Data");
+        else {
+//перебираем массив
+            for (int i = 0; i < array.length; i++) {
+//объявляем дополнительные переменные, переменная для первого элемента и переменная для индекса
+                double minArr = array[i];
+                int minIndex = i;
+
+//запускаем цикл
+                for (int j = i + 1; j < array.length; j++) {
+//если последующий элемент меньше то присваеваем его значение к переменной для минимального и так же с индексом
+                    if (array[j] < minArr) {
+                        minArr = array[j];
+                        minIndex = j;
+                    }
+                }
+//пока значение индекса элементов массива не равно дополнительному минимальному индексу
+                if (i != minIndex) {
+//присваиваем к временной "С" переменной значение текущего элемента массива
+//меняем элементы местами по обоим массивам
+                    double c = array[i];
+                    array[i] = array[minIndex];
+                    array[minIndex] = c;
+                    String temp = str[i];
+                    str[i] = str[minIndex];
+                    str[minIndex] = temp;
+                    printData(str, array);
+                }
+            }printData(str, array);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        double[] d = {4.24, 124.24, 2.3, 112.0, 32.43, -12.2};
+        String[] s = {"Москва", "Лондон", "Париж", "Сидней", "Уфа", "Брюссель"};
+        sortSales(s, d);
+    }
+}

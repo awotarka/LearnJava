@@ -1,0 +1,41 @@
+import java.util.Arrays;
+
+public class Main {
+public static void main(String[] args) {
+int[][] array = null;
+int[][] array1 = {{1, 2, 3}, {45, 2, 11}};
+int[][] array2 = {{1, 2, 3}, null, {45, 2, 11}};
+int[][] array3 = {{}, null, {45, 2, 11}};
+sort(array);
+sort(array1);
+sort(array2);
+sort(array3);
+}
+
+static void sort(int[][] array) {
+//проверка массива на то, что он не null
+if (array != null) {
+if (array.length != 0) {
+//запустили цикл по элементам массива
+for (int i = 0; i < array.length; i++) {
+//проверка если элемент массива есть null
+if (array[i] == null) {
+System.out.println("Empty Data at index " + i);
+return;
+}
+//проверка если массив не состоит из 3-х элементов
+if (array[i].length != 3) {
+System.out.println("Unavailable data at index " + i);
+return;
+}
+}
+//сортируем массивы по 1-ому элементу
+Arrays.sort(array, (a, b) -> Double.compare(b[0], a[0]));
+System.out.println(Arrays.deepToString(array));
+
+} else System.out.println("Empty Data");
+} else
+System.out.println("Empty Data");
+
+}
+}
